@@ -1,0 +1,15 @@
+[Unit]
+After=network.target
+Description=MainServiceManager
+
+[Service]
+ExecStart=MSVC-server
+Restart=always
+RestartSec=5
+TimeoutSec=60000
+Type=simple
+User=root
+
+[Install]
+Alias=MSVC-server
+WantedBy=multi-user.target
