@@ -220,3 +220,14 @@ def make_r(data:dict={},code:int=200,status:str=None,**kw)->Response:
   r=Response(**kw)
   # r.headers["Content-Type"]="application/json; charset=utf-8"
   return r
+def check_port(cfg:ms.cfg):
+  try:
+    if cfg["host"]=="0.0.0.0":
+      host="127.0.0.1"
+    else:
+      host=cfg["host"]
+    port=cfg["port"]
+    requests.request("GET",f"http://{host}:{port}/admin/status")
+    raise OSError("It was not possible to launch the server at {host}:{port}".format(host=cfg["host"],port=cfg["port"]))
+  except requests.exceptions.ConnectionError:
+    return True

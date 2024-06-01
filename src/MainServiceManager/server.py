@@ -273,6 +273,7 @@ def svc_close(internal=False,svc:service=None):
   r=make_r()
   return r
 if __name__=="__main__":
+  check_port(cfg)
   admin_reload(True)
   init()
   app.run(cfg["host"],cfg["port"],False)
