@@ -104,7 +104,7 @@ def admin_reload(internal=False):
       v.reload()
       if v.closed:
         services.pop(k)
-  for i in ms.dir.list(cfg["services_dir"],"msvc",dirs=False):
+  for i in ms.dir.list(cfg["services_dir"],["json","msvc"],dirs=False):
     name=os.path.basename(i)
     if not name in services:
       services[name]=service(i)

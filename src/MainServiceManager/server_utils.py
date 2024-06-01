@@ -170,7 +170,7 @@ def cfg_save(cfg:ms.cfg)->str:
     cfg[i]=d[i]
   return cfg.path
 def get_args(**kw)->argparse.Namespace:
-  kw["description"]=f"MainServiceManager {__version__}"
+  kw["description"]=f"MainServiceManager {__version__} server"
   kw["epilog"]="Creator: MainPlay_TG\nContact: https://t.me/MainPlay_TG\nMade in Russia"
   kw["formatter_class"]=argparse.RawTextHelpFormatter
   kw["prog"]="MSVC-server"
