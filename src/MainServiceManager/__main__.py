@@ -102,28 +102,28 @@ def client():
     return
   else:
     if args.action=="close":
-      ms.json.print(launcher.svc_close())
+      ms.json.print(launcher.svc_close(args.service))
       return
     if args.action=="disable":
-      ms.json.print(launcher.svc_disable())
+      ms.json.print(launcher.svc_disable(args.service))
       return
     if args.action=="enable":
-      ms.json.print(launcher.svc_enable())
+      ms.json.print(launcher.svc_enable(args.service))
       return
     if args.action=="info":
-      ms.json.print(launcher.svc_info())
+      ms.json.print(launcher.svc_info(args.service))
       return
     if args.action=="kill":
-      ms.json.print(launcher.svc_kill())
+      ms.json.print(launcher.svc_kill(args.service))
       return
     if args.action=="restart":
-      ms.json.print(launcher.svc_restart())
+      ms.json.print(launcher.svc_restart(args.service))
       return
     if args.action=="start":
-      ms.json.print(launcher.svc_start())
+      ms.json.print(launcher.svc_start(args.service))
       return
     if args.action=="stop":
-      ms.json.print(launcher.svc_stop())
+      ms.json.print(launcher.svc_stop(args.service))
       return
     print("Unknown action\nAvailable actions for the service: "+", ".join(["close","disable","enable","info","kill","restart","start","stop"]),file=sys.stderr)
     return

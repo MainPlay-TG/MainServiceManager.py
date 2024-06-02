@@ -27,6 +27,7 @@ class service:
     if path=="admin":
       self.path=None
       self.name="admin"
+      self.data={}
     else:
       self.path=os.path.abspath(path)
       self.name=os.path.basename(self.path)
