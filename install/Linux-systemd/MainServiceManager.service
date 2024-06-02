@@ -4,6 +4,7 @@ Description=MainServiceManager
 
 [Service]
 ExecStart=MSVC-server
+# ExecStop=MSVC-client stop admin
 Restart=always
 RestartSec=5
 TimeoutSec=60000

@@ -39,20 +39,28 @@ class service:
       except:
         self.close()
   def read(self,**kw):
+    if self.name=="admin":
+      return
     kw["path"]=self.path
     self.data=ms.json.read(**kw)
   def write(self,**kw):
+    if self.name=="admin":
+      return
     if not "mode" in kw:
       kw["mode"]="p"
     kw["data"]=self.data
     kw["path"]=self.path
     return ms.json.write(**kw)
   def reload(self):
+    if self.name=="admin":
+      return
     try:
       self.read()
     except:
       self.close()
   def close(self,kill:bool=False):
+    if self.name=="admin":
+      return
     while self.process:
       if kill:
         self.kill()
@@ -68,6 +76,8 @@ class service:
           pass
     self.closed=True
   def enable(self,*,threaded=False):
+    if self.name=="admin":
+      return
     if self.process:
       return
     if not threaded:
@@ -86,6 +96,8 @@ class service:
         return self(threaded=True)
     self.enabled=False
   def disable(self):
+    if self.name=="admin":
+      return
     if self.enabled:
       self.enabled=False
       self.stop()
@@ -98,6 +110,8 @@ class service:
   def __hasitem__(self,k):
     return k in self.data
   def start(self,threaded=False,**kw):
+    if self.name=="admin":
+      return
     if self.process:
       return
     if not threaded:
@@ -128,19 +142,31 @@ class service:
     if self["data_path"]:
       ms.json.write(self["data_path"],self.to_dict())
   def restart(self,kill=False):
+    if self.name=="admin":
+      return
+    if self.enabled:
+      self.enabled=False
+      enable=True
     while self.process:
       if kill:
         self.kill()
       else:
         self.stop()
-    self.start()
+    if enable:
+      self.enable()
+    else:
+      self.start()
   def send_signal(self,sig:int):
+    if self.name=="admin":
+      return
     if self.process:
       self.process.send_signal(sig)
   def stop(self):
     self.send_signal(signal.SIGINT)
+    self.enabled=False
   def kill(self):
     self.send_signal(signal.SIGKILL)
+    self.enabled=False
   def to_dict(self)->dict:
     return {"name":self.name,"path":self.path,"pid":self.pid,"password":self.password,"data":self.data}
   def to_json(self,**kw)->str:
