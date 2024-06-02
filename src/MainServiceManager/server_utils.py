@@ -169,7 +169,7 @@ class service:
     self.send_signal(signal.SIGKILL)
     self.enabled=False
   def to_dict(self)->dict:
-    return {"name":self.name,"path":self.path,"pid":self.pid,"password":self.password,"data":self.data}
+    return {"name":self.name,"user":self.name,"path":self.path,"pid":self.pid,"password":self.password,"data":self.data}
   def to_json(self,**kw)->str:
     return ms.json.encode(self.to_dict(),**kw)
 def cfg_load(path:str=os.path.expanduser("~/.config/MainServiceManager/cfg.json"))->ms.cfg:

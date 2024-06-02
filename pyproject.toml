@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "MainServiceManager"
-version = "0.0.9"
+version = "0.0.10"
 description = "Пользовательская программа для управления сервисами, аналогично systemd"
 authors = ["MainPlay TG <xbox.roman6666666666@gmail.com>"]
 readme = "README.md"
