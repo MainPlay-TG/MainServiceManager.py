@@ -1,8 +1,9 @@
 # autopep8: off
-import os
-import sys
-import subprocess
 import argparse
+import os
+import signal
+import subprocess
+import sys
 import MainShortcuts as ms
 from . import Launcher,__version__,__version_tuple__
 __dir__=os.path.dirname(__file__)
@@ -12,6 +13,7 @@ def server():
     return p.wait()
   except:
     pass
+  p.send_signal(signal.SIGINT)
 def client():
   argp=argparse.ArgumentParser(
     description=f"MainServiceManager {__version__} client",

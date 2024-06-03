@@ -32,10 +32,13 @@ def admin_list_svc(internal=False):
     user=auth(cfg,request)
     if not user:
       return make_r(code=401)
+  if user!="admin":
+    return make_r(code=403)
   d=[]
   for k,v in services.items():
     if not v.closed:
-      d.append(v.to_dict())
+      if k!="admin":
+        d.append(v.to_dict())
   r=make_r(d)
   return r
 @app.route("/admin/list/name",methods=["GET"])
@@ -46,10 +49,13 @@ def admin_list_name(internal=False):
     user=auth(cfg,request)
     if not user:
       return make_r(code=401)
+  if user!="admin":
+    return make_r(code=403)
   d=[]
   for k,v in services.items():
     if not v.closed:
-      d.append(k)
+      if k!="admin":
+        d.append(k)
   r=make_r(d)
   return r
 @app.route("/admin/stop",methods=["POST"])
@@ -60,6 +66,8 @@ def admin_stop(internal=False,threaded=False):
     user=auth(cfg,request)
     if not user:
       return make_r(code=401)
+  if user!="admin":
+    return make_r(code=403)
   if threaded:
     for k,v in services.items():
       if not v.closed:
@@ -79,6 +87,8 @@ def admin_kill(internal=False,threaded=False):
     user=auth(cfg,request)
     if not user:
       return make_r(code=401)
+  if user!="admin":
+    return make_r(code=403)
   if threaded:
     for k,v in services.items():
       if not v.closed:
@@ -97,6 +107,8 @@ def admin_reload(internal=False):
     user=auth(cfg,request)
     if not user:
       return make_r(code=401)
+  if user!="admin":
+    return make_r(code=403)
   for k,v in list(services.items()):
     if v.closed:
       services.pop(k)
@@ -276,4 +288,12 @@ if __name__=="__main__":
   check_port(cfg)
   admin_reload(True)
   init()
-  app.run(cfg["host"],cfg["port"],False)
+  try:
+    app.run(cfg["host"],cfg["port"],False)
+  except:
+    pass
+  for k,v in services.items():
+    try:
+      v.close()
+    except:
+      pass

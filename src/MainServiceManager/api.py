@@ -58,7 +58,10 @@ class Launcher:
     if "user" in cfg:
       self.user = cfg["user"]
     else:
-      self.user = "admin"
+      if "name" in cfg:
+        self.user = cfg["name"]
+      else:
+        self.user = "admin"
     if "password" in cfg:
       self.password = cfg["password"]
     else:

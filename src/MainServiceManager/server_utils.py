@@ -25,9 +25,10 @@ class service:
     self.pid=None
     self.process=None
     if path=="admin":
-      self.path=None
-      self.name="admin"
       self.data={}
+      self.name="admin"
+      self.password=password
+      self.path=None
     else:
       self.path=os.path.abspath(path)
       self.name=os.path.basename(self.path)
@@ -216,7 +217,7 @@ def auth_header(user:str,password:str="")->str:
     password=user.password
     user=user.name
   return "Basic "+":".join([user,sha256(password.encode("utf-8")).hexdigest()])
-def auth(cfg,request)->Union[bool,list]:
+def auth(cfg,request)->Union[bool,str]:
   if "Authorization" in request.headers:
     if request.headers["Authorization"]==auth_header("admin",cfg["password"]):
       return "admin"
