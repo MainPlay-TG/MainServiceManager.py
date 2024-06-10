@@ -119,9 +119,16 @@ class service:
     if not threaded:
       return Thread(target=self.start,kwargs={"threaded":True}).start()
     kw["args"]=self.data["args"]
-    kw["stderr"]=subprocess.DEVNULL
+    if self["stdout"]:
+      kw["stdout"]=open(self["stdout"],"wb")
+    else:
+      kw["stdout"]=subprocess.DEVNULL
+    if self["stderr"]:
+      kw["stderr"]=open(self["stderr"],"wb")
+    else:
+      kw["stderr"]=subprocess.DEVNULL
     kw["stdin"]=subprocess.DEVNULL
-    kw["stdout"]=subprocess.DEVNULL
+    kw["text"]=False
     if self["cwd"]:
       kw["cwd"]=os.path.abspath(self.data["cwd"]).replace("\\","/")
     if self["env"]:
@@ -143,6 +150,11 @@ class service:
     self.pid=self.process.pid
     if self["data_path"]:
       ms.json.write(self["data_path"],self.to_dict())
+    self.process.wait()
+    if self["stdout"]:
+      kw["stdout"].close()
+    if self["stderr"]:
+      kw["stderr"].close()
   def restart(self,kill=False):
     if self.name=="admin":
       return
