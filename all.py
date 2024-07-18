@@ -1,3 +1,4 @@
+#!/data/data/com.termux/files/usr/bin/python3
 import os
 from shutil import which
 from time import sleep
